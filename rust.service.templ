@@ -1,0 +1,16 @@
+[Unit]
+Description=<%description%>
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=<%workdir%>
+Restart=<%restart%>
+ExecStart=<%target%> <%args%>
+RestartSec=<%restart_after%>
+SyslogIdentifier=<%syslogid%>
+<%user-line%><%usergr-line%>
+
+[Install]
+WantedBy=multi-user.target
