@@ -61,6 +61,17 @@ fn main() {
         .usergroup
         .as_deref()
         .map_or("".to_owned(), |s| format!("Group={s}"));
+    let args_escaped = cli
+        .args
+        .iter()
+        .map(|arg| {
+            if arg.contains(' ') {
+                format!("\"{arg}\"")
+            } else {
+                arg.to_string()
+            }
+        })
+        .collect::<Vec<_>>();
     let default_description = format!("{} {} {}", cli.name, target_basename, cli.args.join(" "));
     let description = cli.description.as_deref().unwrap_or(&default_description);
     let syslog_id = cli.syslog_id.as_deref().unwrap_or(&cli.name);
@@ -74,7 +85,7 @@ fn main() {
         .maybe_replace("<%syslogid%>", syslog_id)
         .maybe_replace("<%restart%>", &cli.restart)
         .maybe_replace("<%restart_after%>", &cli.restart_after.to_string())
-        .maybe_replace("<%args%>", &cli.args.join(" "));
+        .maybe_replace("<%args%>", &args_escaped.join(" "));
 
     println!("\n------\n{}\n---------\n", output);
 
