@@ -5,6 +5,7 @@ Wants=network.target
 
 [Service]
 Type=simple
+KillSignal=SIGINT
 WorkingDirectory=<%workdir%>
 Restart=<%restart%>
 ExecStart=<%target%> <%args%>
